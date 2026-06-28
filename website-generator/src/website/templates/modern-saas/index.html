@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{{page_title}}</title>
+<meta name="description" content="{{hero_headline}}" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" />
+<link rel="stylesheet" href="styles.css" />
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body data-density="{{density}}">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header id="navbar">
+  <div class="saas-navbar-inner">
+    <a class="saas-logo" href="#top"><span class="saas-logo-mark">{{hero_initials}}</span>{{hero_name}}</a>
+    <nav class="saas-nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Work</a>
+      <a href="#career">Experience</a>
+      {{hero_social}}
+    </nav>
+    <!--@if:contact--><a class="saas-nav-cta" href="#contact">Get in touch</a><!--@endif:contact-->
+    <button id="mobile-nav-toggle" class="mobile-nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav-drawer">
+      <span class="mobile-nav-toggle-bar"></span><span class="mobile-nav-toggle-bar"></span><span class="mobile-nav-toggle-bar"></span>
+    </button>
+  </div>
+</header>
+
+<div id="mobile-nav-drawer" class="mobile-nav-drawer" hidden>
+  <a href="#about">About</a>
+  <a href="#projects">Work</a>
+  <a href="#career">Experience</a>
+  <!--@if:contact--><a href="#contact">Contact</a><!--@endif:contact-->
+</div>
+
+<main id="main">
+  <div id="top"></div>
+
+  <section class="saas-hero">
+    <div class="saas-hero-blob" aria-hidden="true"></div>
+    <span class="saas-eyebrow">{{hero_role}}</span>
+    <h1 class="saas-headline {{headline_size_class}}">{{hero_headline}}</h1>
+    <p class="saas-subhead">{{about_bio}}</p>
+    <div class="saas-hero-cta">
+      <a class="saas-btn saas-btn-primary" href="#projects">View Work</a>
+      <!--@if:contact--><a class="saas-btn saas-btn-secondary" href="#contact">Get in Touch</a><!--@endif:contact-->
+    </div>
+    {{stats_row}}
+  </section>
+
+  <section id="about" class="saas-section reveal">
+    <span class="saas-section-eyebrow">Skills &amp; Tools</span>
+    <h2 class="saas-section-title">What I work with</h2>
+    {{skills_markup}}
+  </section>
+
+  <section id="projects" class="saas-section reveal">
+    <span class="saas-section-eyebrow">Case Studies</span>
+    <h2 class="saas-section-title">Selected work</h2>
+    <div class="saas-cases">
+    {{project_markup}}
+    </div>
+  </section>
+
+  <section id="career" class="saas-section reveal">
+    <span class="saas-section-eyebrow">Experience</span>
+    <h2 class="saas-section-title">Where this could go next</h2>
+    {{career_markup}}
+  </section>
+
+  <!--@if:contact-->
+  <section id="contact" class="saas-cta-band reveal">
+    <h2>Let's build something together.</h2>
+    {{contact_markup}}
+  </section>
+  <!--@endif:contact-->
+
+  <footer><p>Designed for {{hero_name}}</p></footer>
+</main>
+
+<script>
+(function () {
+  var navToggle = document.getElementById("mobile-nav-toggle");
+  var drawer = document.getElementById("mobile-nav-drawer");
+  if (!navToggle || !drawer) return;
+  function closeDrawer() {
+    drawer.hidden = true;
+    navToggle.setAttribute("aria-expanded", "false");
+  }
+  navToggle.addEventListener("click", function () {
+    var isOpen = !drawer.hidden;
+    drawer.hidden = isOpen;
+    navToggle.setAttribute("aria-expanded", String(!isOpen));
+  });
+  drawer.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", closeDrawer); });
+})();
+
+var revealEls = document.querySelectorAll(".reveal");
+var revealObserver = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) { entry.target.classList.add("is-visible"); revealObserver.unobserve(entry.target); }
+  });
+}, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+revealEls.forEach(function (el) { revealObserver.observe(el); });
+</script>
+</body>
+</html>

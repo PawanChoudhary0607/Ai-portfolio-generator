@@ -1,0 +1,18 @@
+# ─────────────────────────────────────────────────────────
+# AI Portfolio Generator — Development Dependencies
+# Never install these in production.
+# ─────────────────────────────────────────────────────────
+# Install: pip install -r requirements-dev.txt
+
+# ── Testing ──────────────────────────────────────────────
+pytest==8.2.0               # Test runner
+pytest-cov==5.0.0           # Coverage reporting
+
+# ── Code Formatting ──────────────────────────────────────
+black==24.4.2               # Opinionated code formatter
+
+# ── Linting ──────────────────────────────────────────────
+ruff==0.4.4                 # Fast linter (replaces flake8, isort)
+
+# ── Type Checking ────────────────────────────────────────
+mypy==1.10.0                # Static type checker

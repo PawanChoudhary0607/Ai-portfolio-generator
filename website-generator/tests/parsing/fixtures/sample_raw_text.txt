@@ -1,0 +1,26 @@
+Pawan Choudhary
+pawan@example.com
++91-9876543210
+linkedin.com/in/pawanchoudhary
+
+Summary
+Passionate AI/ML engineer with 2 years of experience building production systems.
+
+Skills
+Python, Machine Learning, Git, AWS, React, FastAPI, Docker
+
+Experience
+Software Engineer — Acme Corp
+Jan 2023 – Present
+Built ML pipelines for real-time inference.
+
+Education
+BTech Computer Science (AI/ML)
+XYZ University, 2023
+
+Projects
+AI Portfolio Generator
+Automated portfolio generation from resume PDFs using LLMs.
+
+Certifications
+AWS Certified Developer – Associate

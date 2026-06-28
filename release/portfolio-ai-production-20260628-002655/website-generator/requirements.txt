@@ -1,0 +1,20 @@
+# ─────────────────────────────────────────────────────────
+# AI Portfolio Generator — Production Dependencies
+# Python 3.11+
+# Install: pip install -r requirements.txt
+# ─────────────────────────────────────────────────────────
+
+# ── Configuration ────────────────────────────────────────
+python-dotenv==1.0.1        # Load .env into os.environ
+
+# ── Data Validation ──────────────────────────────────────
+pydantic==2.7.1             # Schema definitions and validation
+
+# ── UI Framework (Milestone 4) ───────────────────────────
+streamlit==1.35.0           # Web UI — entry point in Milestone 4
+
+# ── PDF Parsing (Milestone 2) ────────────────────────────
+pymupdf==1.24.3             # PDF text extraction (import as fitz)
+
+# ── Local LLM (Milestone 3) ──────────────────────────────
+ollama==0.2.1               # Ollama Python client

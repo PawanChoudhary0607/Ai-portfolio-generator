@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{{page_title}}</title>
+<meta name="description" content="{{hero_headline}}" />
+<script>
+(function () {
+  try {
+    var stored = localStorage.getItem("theme");
+    document.documentElement.setAttribute("data-theme", stored || "light");
+  } catch (e) {}
+  document.documentElement.classList.add("js");
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body data-density="{{density}}">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav id="navbar">
+  <div class="sidebar-inner">
+    <div id="hero" class="identity">
+      <div class="identity-row">
+        <a class="identity-mark" href="#top" aria-label="{{hero_name}} — back to top">{{hero_initials}}</a>
+        <h1 class="identity-name {{name_size_class}}">{{hero_name}}</h1>
+        <button id="mobile-nav-toggle" class="mobile-nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav-drawer">
+          <span class="mobile-nav-toggle-bar"></span><span class="mobile-nav-toggle-bar"></span><span class="mobile-nav-toggle-bar"></span>
+        </button>
+      </div>
+      <p class="identity-role">{{hero_role}}</p>
+      <p class="identity-headline {{headline_size_class}}">{{hero_headline}}</p>
+      <div class="identity-cta">
+        <a class="btn btn-primary" href="#projects">View Work</a>
+        <!--@if:contact--><a class="btn btn-secondary" href="#contact">Get in touch</a><!--@endif:contact-->
+      </div>
+      {{hero_social}}
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#about" data-nav="about">About</a></li>
+      <li><a href="#career" data-nav="career">Experience</a></li>
+      <li><a href="#projects" data-nav="projects">Work</a></li>
+      <!--@if:contact--><li><a href="#contact" data-nav="contact">Contact</a></li><!--@endif:contact-->
+    </ul>
+
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+      <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span></span>
+      <span class="theme-toggle-label">Dark mode</span>
+    </button>
+  </div>
+</nav>
+
+<div id="mobile-nav-drawer" class="mobile-nav-drawer" hidden>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#career">Experience</a></li>
+    <li><a href="#projects">Work</a></li>
+    <!--@if:contact--><li><a href="#contact">Contact</a></li><!--@endif:contact-->
+  </ul>
+</div>
+
+<main class="content" id="main">
+  <div id="top"></div>
+
+  <div class="hero-mobile">
+    <p class="hero-mobile-role">{{hero_role}}</p>
+    <p class="hero-mobile-headline {{headline_size_class}}">{{hero_headline}}</p>
+    <div class="hero-mobile-cta">
+      <a class="btn btn-primary" href="#projects">View Work</a>
+      <!--@if:contact--><a class="btn btn-secondary" href="#contact">Get in touch</a><!--@endif:contact-->
+    </div>
+    {{hero_social}}
+  </div>
+
+  <section id="about" class="block reveal">
+    <span class="eyebrow">About</span>
+    <p class="lede">{{about_bio}}</p>
+    <div id="skills" class="skills-block">
+      <span class="eyebrow eyebrow-sm">Skills &amp; Tools</span>
+      <div class="skills-groups">
+      {{skills_markup}}
+      </div>
+    </div>
+  </section>
+
+  <section id="career" class="block reveal">
+    <span class="eyebrow">Experience</span>
+    <h2 class="block-title">Where the path has led</h2>
+    {{career_markup}}
+  </section>
+
+  <section id="projects" class="block reveal">
+    <span class="eyebrow">Selected Work</span>
+    <h2 class="block-title">Things I've built</h2>
+    {{project_markup}}
+  </section>
+
+  <!--@if:contact-->
+  <section id="contact" class="block reveal">
+    <span class="eyebrow">Get in touch</span>
+    <h2 class="block-title">Let's build something</h2>
+    {{contact_markup}}
+  </section>
+  <!--@endif:contact-->
+
+  <footer><p>Designed for {{hero_name}}</p></footer>
+</main>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var toggle = document.getElementById("theme-toggle");
+  function syncToggle() {
+    var isDark = root.getAttribute("data-theme") === "dark";
+    toggle.setAttribute("aria-pressed", String(isDark));
+  }
+  syncToggle();
+  toggle.addEventListener("click", function () {
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("theme", next); } catch (e) {}
+    syncToggle();
+  });
+})();
+
+// ── Mobile nav drawer ────────────────────────────────────────────────────
+(function () {
+  var navToggle = document.getElementById("mobile-nav-toggle");
+  var drawer = document.getElementById("mobile-nav-drawer");
+  if (!navToggle || !drawer) return;
+  function closeDrawer() {
+    drawer.hidden = true;
+    navToggle.setAttribute("aria-expanded", "false");
+  }
+  navToggle.addEventListener("click", function () {
+    var isOpen = !drawer.hidden;
+    drawer.hidden = isOpen;
+    navToggle.setAttribute("aria-expanded", String(!isOpen));
+  });
+  drawer.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", closeDrawer);
+  });
+})();
+
+var revealEls = document.querySelectorAll(".reveal");
+var revealObserver = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) { entry.target.classList.add("is-visible"); revealObserver.unobserve(entry.target); }
+  });
+}, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+revealEls.forEach(function (el) { revealObserver.observe(el); });
+
+var sections = document.querySelectorAll("main section[id]");
+var navLinks = document.querySelectorAll(".nav-links a");
+var navObserver = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) {
+      navLinks.forEach(function (a) { a.classList.remove("active"); });
+      var active = document.querySelector('.nav-links a[data-nav="' + entry.target.id + '"]');
+      if (active) active.classList.add("active");
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(function (s) { navObserver.observe(s); });
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Node / frontend
+node_modules/
+dist/
+.vite/
+
+# Env files — never commit real secrets
+.env
+.env.local
+
+# Backend runtime data
+backend/data/*.db
+backend/storage/resumes/*
+backend/storage/exports/*
+!backend/storage/resumes/.gitkeep
+!backend/storage/exports/.gitkeep
+
+# Generator engine data (never commit real resumes or outputs)
+website-generator/data/raw/*
+website-generator/data/processed/*
+website-generator/data/output/*
+!website-generator/data/raw/.gitkeep
+!website-generator/data/processed/.gitkeep
+!website-generator/data/output/.gitkeep
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/

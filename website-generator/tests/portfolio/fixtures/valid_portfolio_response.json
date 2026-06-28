@@ -1,0 +1,31 @@
+{
+  "hero_role": "Python & ML Engineer",
+  "hero_headline": "Building intelligent systems that turn raw data into production-ready AI applications.",
+  "about": "Pawan Choudhary is an emerging AI/ML engineer with a strong foundation in Python and machine learning pipelines. He specialises in building end-to-end AI applications and has demonstrated initiative through independent open-source projects. Pawan is well positioned for junior to mid-level roles in AI application development and backend engineering.",
+  "skills": ["Python", "Machine Learning", "FastAPI", "Git", "Docker"],
+  "projects": [
+    {
+      "title": "AI Portfolio Generator",
+      "problem": "Job seekers struggle to turn a static PDF resume into a credible, deployable personal website.",
+      "technologies": ["Python", "Ollama", "Qwen3", "Pydantic"],
+      "outcome": "Converts a PDF resume into a structured, ready-to-deploy portfolio site end to end."
+    },
+    {
+      "title": "FastAPI Microservice",
+      "problem": "Needed a reproducible way to demonstrate cloud-native engineering practices in a portfolio piece.",
+      "technologies": ["FastAPI", "Docker", "GitHub Actions"],
+      "outcome": "Containerised REST API with automated CI/CD deployment."
+    },
+    {
+      "title": "Open-source ML Contribution",
+      "problem": "A scikit-learn extension library lacked sufficient documentation and test coverage.",
+      "technologies": ["Python", "scikit-learn", "pytest"],
+      "outcome": "Improved documentation and added unit tests as an active open-source contributor."
+    }
+  ],
+  "career_paths": [
+    "ML Engineer",
+    "Backend Python Developer",
+    "AI Application Developer"
+  ]
+}

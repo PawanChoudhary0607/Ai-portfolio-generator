@@ -1,0 +1,134 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   AI Portfolio Generator — "Developer Dark" theme
+   A real code-editor chrome: file-tree sidebar, tab bar, syntax-style
+   tokens for skills (JSON object) and projects (function blocks). Built
+   for the "top GitHub developer" reading, not a generic dark template.
+   ───────────────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0d1117;
+  --panel:     #161b22;
+  --panel-2:   #1c2128;
+  --border:    #30363d;
+  --text:      #c9d1d9;
+  --text-muted:#8b949e;
+  --text-faint:#7d8590;  /* WCAG AA-safe (5.07:1) — was #586069 (2.97:1, failed AA) */
+  --green:     #3fb950;
+  --blue:      #58a6ff;
+  --orange:    #d29922;
+  --pink:      #f47067;
+
+  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+  --space-5: 1.5rem; --space-6: 2rem; --space-7: 2.5rem; --space-8: 3rem; --space-9: 4rem;
+
+  --text-xs: 0.75rem; --text-sm: 0.85rem; --text-base: 0.95rem; --text-md: 1.1rem;
+  --text-lg: 1.4rem; --text-xl: clamp(1.6rem, 3vw, 2.1rem);
+
+  --font-mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  --font-sans: "Inter", -apple-system, sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-slow: 420ms;
+  --sidebar-w: 16rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: var(--text-base); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+.skip-link { position: absolute; left: -9999px; top: 0; background: var(--green); color: #04140a; padding: var(--space-2) var(--space-4); z-index: 200; }
+.skip-link:focus { left: var(--space-3); top: var(--space-3); }
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { color: var(--green); }
+p { color: var(--text-muted); }
+h2, h3 { font-family: var(--font-mono); color: var(--text); font-weight: 600; }
+
+.ide { display: flex; min-height: 100vh; }
+
+.ide-sidebar { display: none; }
+
+.ide-identity { padding: var(--space-6) var(--space-5); border-bottom: 1px solid var(--border); }
+.ide-avatar { width: 2.4rem; height: 2.4rem; border-radius: 6px; background: var(--green); color: #04140a; font-family: var(--font-mono); font-weight: 700; display: flex; align-items: center; justify-content: center; margin-bottom: var(--space-3); }
+.ide-name { font-family: var(--font-mono); font-size: var(--text-md); color: var(--text); font-weight: 600; margin: 0; }
+.ide-name.name-long { font-size: var(--text-base); }
+.ide-comment { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-faint); margin-top: var(--space-1); }
+
+.file-tree { padding: var(--space-4) 0; display: flex; flex-direction: column; }
+.file-tree-label { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--text-faint); padding: 0 var(--space-5); margin-bottom: var(--space-2); }
+.file-item { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--text-muted); padding: var(--space-2) var(--space-5); display: flex; align-items: center; gap: var(--space-2); border-left: 2px solid transparent; }
+.file-icon { color: var(--text-faint); font-size: 0.7rem; }
+.file-item:hover { background: var(--panel-2); color: var(--text); }
+.file-item.active { color: var(--blue); border-left-color: var(--blue); background: var(--panel-2); }
+
+.ide-main { flex: 1; min-width: 0; }
+
+.tab-bar { display: flex; overflow-x: auto; border-bottom: 1px solid var(--border); background: var(--panel); position: sticky; top: 0; z-index: 10; }
+.tab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-faint); padding: var(--space-3) var(--space-5); border-right: 1px solid var(--border); white-space: nowrap; border-bottom: 2px solid transparent; }
+.tab:hover { color: var(--text); background: var(--panel-2); }
+.tab.active { color: var(--blue); border-bottom-color: var(--blue); background: var(--panel-2); }
+
+.ide-content { padding: var(--space-6) var(--space-5) var(--space-9); max-width: 760px; }
+
+.hero-section { padding-bottom: var(--space-7); margin-bottom: var(--space-7); border-bottom: 1px dashed var(--border); }
+.terminal-block { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: var(--space-5); font-family: var(--font-mono); font-size: var(--text-sm); }
+.terminal-block p { margin-bottom: var(--space-2); color: var(--text-muted); }
+.term-prompt { color: var(--green); margin-right: var(--space-2); }
+.term-out { color: var(--text); padding-left: var(--space-5); }
+.term-cursor { display: inline-block; width: 0.55em; height: 1em; background: var(--green); margin-left: 0.2em; vertical-align: -0.15em; animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.hero-env { margin-top: var(--space-4); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-faint); line-height: 1.9; }
+.env-key { color: var(--orange); }
+.env-val { color: var(--blue); }
+
+.ide-section { padding: var(--space-7) 0; border-bottom: 1px dashed var(--border); }
+.ide-section:last-of-type { border-bottom: none; }
+.section-comment { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--text-faint); margin: 0 0 var(--space-5) 0; font-weight: 600; }
+.prose { max-width: 64ch; color: var(--text); }
+
+.code-block { font-family: var(--font-mono); font-size: var(--text-sm); background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: var(--space-5); overflow-x: auto; line-height: 1.8; color: var(--text); white-space: pre; }
+.tok-punc { color: var(--text-faint); }
+.tok-key { color: var(--pink); }
+.tok-string { color: var(--green); }
+.tok-fn { color: var(--blue); }
+.tok-comment {
+  color: var(--text-faint); font-style: italic;
+  white-space: pre-wrap; word-break: break-word; /* long AI-generated titles/problem text must wrap, not hide behind horizontal scroll */
+}
+.tok-line-no { color: var(--text-faint); opacity: 0.5; margin-right: var(--space-3); user-select: none; }
+
+.code-project { margin-bottom: var(--space-6); }
+.code-project:last-child { margin-bottom: 0; }
+.code-tab-bar { display: flex; }
+.code-tab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); background: var(--panel-2); border: 1px solid var(--border); border-bottom: none; border-radius: 6px 6px 0 0; padding: var(--space-2) var(--space-4); }
+.code-project-body { border-radius: 0 8px 8px 8px; margin-top: 0; }
+.code-project-links { display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); }
+.code-link { color: var(--blue); }
+.code-link:hover { color: var(--green); }
+.code-link-placeholder { color: var(--text-faint); }
+
+.commit-log { display: flex; flex-direction: column; }
+.commit-row { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) 0; border-top: 1px dashed var(--border); font-family: var(--font-mono); font-size: var(--text-sm); }
+.commit-row:first-child { border-top: none; }
+.commit-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+.commit-hash { color: var(--orange); }
+.commit-msg { color: var(--text); }
+.commit-msg strong { color: var(--blue); font-weight: 600; }
+
+footer { padding-top: var(--space-7); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-faint); }
+
+.js .reveal { opacity: 0; transform: translateY(14px); transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out); }
+.js .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+@media (min-width: 880px) {
+  .ide-sidebar { display: flex; flex-direction: column; width: var(--sidebar-w); flex-shrink: 0; background: var(--panel); border-right: 1px solid var(--border); height: 100vh; position: sticky; top: 0; }
+  .ide-content { padding: var(--space-8) var(--space-7) var(--space-9); }
+}
+
+/* ── Adaptive spacing by content density (Milestone 6) ─────────────────── */
+body[data-density="sparse"] { --space-7: 1.75rem; --space-9: 2rem; }
+body[data-density="dense"]  { --space-9: 3.5rem; }

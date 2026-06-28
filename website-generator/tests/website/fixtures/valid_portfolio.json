@@ -1,0 +1,54 @@
+{
+  "schema_version": "5.0",
+  "generated_at": "2026-06-16T07:53:56.435280Z",
+  "llm_model": "qwen3:14b",
+  "hero": {
+    "name": "Pawan Choudhary",
+    "role": "Python & ML Engineer",
+    "headline": "Building intelligent systems that turn raw data into production-ready AI applications."
+  },
+  "about": "Pawan Choudhary is an emerging AI/ML engineer with a strong foundation in Python and machine learning pipelines. He specialises in building end-to-end AI applications.",
+  "skills": [
+    {"category": "Programming Languages", "items": ["Python", "SQL"]},
+    {"category": "AI / ML", "items": ["Machine Learning", "Pandas"]},
+    {"category": "Frameworks", "items": ["FastAPI"]},
+    {"category": "Tools", "items": ["Git", "Docker"]}
+  ],
+  "projects": [
+    {
+      "title": "AI Portfolio Generator",
+      "problem": "Job seekers struggle to turn a static PDF resume into a credible, deployable personal website.",
+      "technologies": ["Python", "Ollama", "Qwen3"],
+      "outcome": "Converts a PDF resume into a structured, ready-to-deploy portfolio site end to end.",
+      "github_url": null,
+      "demo_url": null
+    },
+    {
+      "title": "FastAPI Microservice",
+      "problem": "Needed a reproducible way to demonstrate cloud-native engineering practices.",
+      "technologies": ["FastAPI", "Docker"],
+      "outcome": "Containerised REST API with automated CI/CD deployment.",
+      "github_url": null,
+      "demo_url": null
+    },
+    {
+      "title": "Open-source ML Contribution",
+      "problem": "A scikit-learn extension library lacked sufficient documentation and test coverage.",
+      "technologies": ["Python", "scikit-learn"],
+      "outcome": "Improved documentation and added unit tests as an active contributor.",
+      "github_url": null,
+      "demo_url": null
+    }
+  ],
+  "career_paths": [
+    "ML Engineer",
+    "Backend Python Developer",
+    "AI Application Developer"
+  ],
+  "contact": {
+    "email": "pawan@example.com",
+    "phone": "+91-9876543210",
+    "location": "Delhi, India",
+    "linkedin": "linkedin.com/in/pawan"
+  }
+}
