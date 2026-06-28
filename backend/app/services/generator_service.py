@@ -25,22 +25,60 @@ from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
-if str(settings.GENERATOR_ROOT) not in sys.path:
-    sys.path.insert(0, str(settings.GENERATOR_ROOT))
+# -------------------------------
+# Locate website-generator safely
+# -------------------------------
 
-# These imports reach into the frozen engine. Everything past this point
-# in the file is the only place in the backend allowed to do that.
-from src.ai import analyzer  # noqa: E402
-from src.ai import exceptions as ai_exceptions  # noqa: E402
-from src.extraction import exceptions as extraction_exceptions  # noqa: E402
-from src.extraction import pdf_extractor  # noqa: E402
-from src.parsing import resume_parser  # noqa: E402
-from src.portfolio import exceptions as portfolio_exceptions  # noqa: E402
-from src.portfolio import portfolio_generator  # noqa: E402
-from src.website import exceptions as website_exceptions  # noqa: E402
-from src.website.website_generator import build_website_schema, render  # noqa: E402
-from src.website.website_schema import TemplateTheme  # noqa: E402
+generator_root = settings.GENERATOR_ROOT.resolve()
 
+backend_root = Path(__file__).resolve().parents[2]
+
+candidates = [
+    generator_root,
+    backend_root.parent / "website-generator",
+    backend_root / "website-generator",
+    Path("/app/website-generator"),
+]
+
+print("=" * 70)
+print("Searching for website-generator...")
+print("=" * 70)
+
+found = None
+
+for candidate in candidates:
+    print(candidate)
+    print("exists:", candidate.exists())
+    print("src:", (candidate / "src").exists())
+
+    if (candidate / "src").exists():
+        found = candidate
+        break
+
+if found is None:
+    raise RuntimeError(
+        "website-generator/src could not be found.\n"
+        f"Checked:\n" +
+        "\n".join(str(x) for x in candidates)
+    )
+
+generator_root = found
+
+sys.path.insert(0, str(generator_root))
+
+print("USING:", generator_root)
+print("=" * 70)
+
+from src.ai import analyzer
+from src.ai import exceptions as ai_exceptions
+from src.extraction import exceptions as extraction_exceptions
+from src.extraction import pdf_extractor
+from src.parsing import resume_parser
+from src.portfolio import exceptions as portfolio_exceptions
+from src.portfolio import portfolio_generator
+from src.website import exceptions as website_exceptions
+from src.website.website_generator import build_website_schema, render
+from src.website.website_schema import TemplateTheme
 
 class GeneratorServiceError(Exception):
     """Backend-facing error wrapping any failure from the engine.
